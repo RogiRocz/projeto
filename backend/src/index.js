@@ -3,7 +3,6 @@ const express = require('express');
 //const routes = require('./routes');
 
 //app.use(cors());
-//converter json em objeto
 
 const app = express();
 app.use(express.json());
