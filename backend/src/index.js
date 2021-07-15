@@ -8,16 +8,7 @@ const express = require('express');
 const app = express();
 app.use(express.json());
 
-app.post('/users', (req, res) => {
-  const body = req.body;
-  console.log(body);
-
-  return res.json({
-    evento: 'fazer backend',
-    problema: 'fazer',
-  });
-});
-
 //app.use(routes);
 
-app.listen(3333);
+const port = 3333;
+app.listen(port, console.log('Server is running'));
