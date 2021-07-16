@@ -1,24 +1,15 @@
 const express = require('express');
+const UserController = require('./controllers/UserController');
+const OngController = require('./controllers/OngController');
+const DoadorController = require('./controllers/DoadorController');
 const routes = express.Router();
 
-const connection = require('./database/connection');
+routes.post('/users', UserController.create);
 
-routes.post('/users', async (request, response) => {
-  const { name, login, password, email, whatsapp, city, uf, type } =
-    request.body;
+routes.get('/ongs', OngController.index);
+routes.delete('/ongs/:id', OngController.deleteONG);
 
-  await connection('users').insert({
-    name,
-    login,
-    password,
-    email,
-    whatsapp,
-    city,
-    uf,
-    type,
-  });
-
-  return response.status(200).send('Usuario cadastrado com sucesso');
-});
+routes.get('/doadores', DoadorController.index);
+routes.delete('/doadores/:id', DoadorController.deleteDoador);
 
 module.exports = routes;

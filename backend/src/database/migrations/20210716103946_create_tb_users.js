@@ -9,9 +9,6 @@ exports.up = (knex) =>
     table.string('city').notNullable();
     table.string('uf', 2).notNullable();
     table.string('type').notNullable();
-
-    table.timestamp('created_at').defaultTo(knex.fn.now());
-    table.timestamp('update_at').defaultTo(knex.fn.now());
   });
 
 exports.down = (knex) => knex.schema.dropTable('users');
