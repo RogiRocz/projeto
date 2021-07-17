@@ -1,17 +1,28 @@
 const express = require('express');
 const UserController = require('./controllers/UserController');
+const CasesController = require('./controllers/CaseController');
 const OngController = require('./controllers/OngController');
 const DoadorController = require('./controllers/DoadorController');
+const ProfileController = require('./controllers/ProfileController');
+const SessionController = require('./controllers/SessionController');
+
 const routes = express.Router();
 
+
 routes.post('/users', UserController.create);
+routes.delete('/users/:id', UserController.delete);
+routes.put('/users/:id', UserController.update);
 
-routes.get('/ongs', OngController.index);
-routes.delete('/ongs/:id', OngController.delete);
-routes.put('/ongs/:id', OngController.update);
+routes.get('/listarong', OngController.index);
+routes.get('/listardoador', DoadorController.index);
 
-routes.get('/doadores', DoadorController.index);
-routes.put('/doadores/:id', DoadorController.update);
-routes.delete('/doadores/:id', DoadorController.delete);
+routes.post('/cases', CasesController.create);
+routes.delete('/cases/:id', CasesController.deleteCase);
+routes.get('/cases', CasesController.index);
+
+routes.get('/profile', ProfileController.index);
+
+routes.post('/sessions', SessionController.create);
+
 
 module.exports = routes;

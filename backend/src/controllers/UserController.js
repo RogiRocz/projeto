@@ -1,28 +1,70 @@
 const connection = require('../database/connection');
 module.exports = {
   /*async index(request, response) {
-    const ongs = await connection('users')
+    const users = await connection('users')
       .select('*')
-      .where('type', '=', 'ONG');
-    return response.json(ongs);
+    return response.json(users);
   },*/
 
   async create(request, response) {
-    const { name, login, password, email, whatsapp, city, uf, type } =
+
+    try{
+      const { name, login, password, email, whatsapp, city, uf, type } =
       request.body;
 
-    await connection('users').insert({
-      name,
-      login,
-      password,
-      email,
-      whatsapp,
-      city,
-      uf,
-      type,
-    });
-
+      const user = await connection('users').insert({
+        name,
+        login,
+        password,
+        email,
+        whatsapp,
+        city,
+        uf,
+        type,
+      });
+      
     return response.status(200).send('Usuario cadastrado com sucesso');
+    }catch(e){
+      return response.status(500).send(error);
+    }
+    
+  },
+
+  async update(request, response){
+    try {
+      const {name, login, password, email, whatsapp, city, uf} = request.body;
+      const { id } = request.params;
+      const user = await connection('users')
+        .update({name, login, password, email, whatsapp, city, uf})
+        .where({ id })
+        
+       // console.log(doador)
+      if(user > 0){
+        return response.status(204).send();
+      }
+      return response.status(401).json({ error: 'Operation not permitted' });
+      
+    } catch (error) {
+      return response.status(500).send(error);
+    }
+  },
+
+  async delete(request, response) {
+    try {
+      const { id } = request.params;
+      const user = await connection('users')
+        .where({ id })
+        .delete();
+        
+        //console.log(doador)
+      if(user > 0){
+        return response.status(204).send();
+      }
+      return response.status(401).json({ error: 'Operation not permitted' });
+      
+    } catch (error) {
+      return response.status(500).send(error);
+    }
   },
   
   
