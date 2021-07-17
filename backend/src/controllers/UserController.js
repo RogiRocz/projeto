@@ -1,10 +1,10 @@
 const connection = require('../database/connection');
 module.exports = {
-  /*async index(request, response) {
+  async index(request, response) {
     const users = await connection('users')
       .select('*')
     return response.json(users);
-  },*/
+  },
 
   async create(request, response) {
 
@@ -22,8 +22,21 @@ module.exports = {
         uf,
         type,
       });
+
+      if(user){
+        return response.json({ 
+          name,
+          login,
+          password,
+          email,
+        });
       
-    return response.status(200).send('Usuario cadastrado com sucesso');
+      }else{
+        response.status(409).json({err: "Nome de usuario ou email ja existente"});
+      }
+      
+    
+    //return response.status(200).send('Successfully registered user');
     }catch(e){
       return response.status(500).send(error);
     }
@@ -38,7 +51,7 @@ module.exports = {
         .update({name, login, password, email, whatsapp, city, uf})
         .where({ id })
         
-       // console.log(doador)
+       // console.log(user)
       if(user > 0){
         return response.status(204).send();
       }
@@ -56,7 +69,7 @@ module.exports = {
         .where({ id })
         .delete();
         
-        //console.log(doador)
+        //console.log(user)
       if(user > 0){
         return response.status(204).send();
       }
@@ -66,6 +79,4 @@ module.exports = {
       return response.status(500).send(error);
     }
   },
-  
-  
 };
